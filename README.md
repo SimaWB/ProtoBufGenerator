@@ -1,6 +1,9 @@
 # ProtoBufGenerator
 Delphi ProtoBuf files generator
 
+### Update 23.05.2015 (SimaWB)
++ Compatible Delphi XE
+
 ### Update 08.09.2017(jinnblue) rebase from kami-soft/master
 + Add Drap files to generator.exe feature
 + Add extensions check
