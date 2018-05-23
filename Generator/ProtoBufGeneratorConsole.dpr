@@ -4,9 +4,9 @@ program ProtoBufGeneratorConsole;
 {$R *.res}
 
 uses
-  System.SysUtils,
-  System.Classes,
-  System.Generics.Collections,
+  SysUtils,
+  Classes,
+  Generics.Collections,
   uProtoBufGenerator,
   uAbstractProtoBufClasses in '..\uAbstractProtoBufClasses.pas',
   StrBuffer in '..\StrBuffer.pas',
@@ -22,10 +22,10 @@ uses
   /o /output - output folder. Folder must have write access rights.
 }
 
-const
-  InputFileAliases: TArray<string> = ['f', 'file'];
-  OutputFolderAliases: TArray<string> = ['o', 'output'];
-  HelpAliases: TArray<string> = ['h', 'help'];
+var
+  InputFileAliases: TArray<string>;
+  OutputFolderAliases: TArray<string>;
+  HelpAliases: TArray<string>;
 
 type
   TParam = record
@@ -56,15 +56,15 @@ begin
   for i := 1 to ParamCount do
     begin
       s := ParamStr(i);
-      if s.StartsWith('/') or s.StartsWith('-') then
+//      if s.StartsWith('/') or s.StartsWith('-') then
         begin
           if not Param.IsEmpty then
             Add(Param);
           Param.Clear;
-          Param.ParamKey := s.Substring(1); // string helpers use zero-based strings
+//          Param.ParamKey := s.Substring(1); // string helpers use zero-based strings
         end
-      else
-        Param.ParamValue := Param.ParamValue + s + ';';
+//      else
+//        Param.ParamValue := Param.ParamValue + s + ';';
     end;
   if not Param.IsEmpty then
     Add(Param);
@@ -240,6 +240,9 @@ begin
 end;
 
 begin
+  InputFileAliases := TArray<string>.Create('f', 'file') ;
+  OutputFolderAliases := TArray<string>.Create('o', 'output');
+  HelpAliases := TArray<string>.Create('h', 'help');
   try
     ParamList := TParamList.Create;
     try

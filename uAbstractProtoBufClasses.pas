@@ -6,7 +6,7 @@ uses
   Windows,
   SysUtils,
   Classes,
-  System.Generics.Collections,
+  Generics.Collections,
   pbInput,
   pbOutput;
 

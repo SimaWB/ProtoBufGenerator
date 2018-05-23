@@ -3,8 +3,8 @@ unit uProtoBufGenerator;
 interface
 
 uses
-  System.SysUtils,
-  System.Classes,
+  SysUtils,
+  Classes,
   uAbstractProtoBufClasses,
   uProtoBufParserAbstractClasses,
   uProtoBufParserClasses;
@@ -24,7 +24,7 @@ type
 implementation
 
 uses
-  System.StrUtils;
+  StrUtils;
 
 function ProtoPropTypeToDelphiType(const PropTypeName: string): string;
 var
@@ -344,7 +344,7 @@ procedure TProtoBufGenerator.GenerateImplementationSection(Proto: TProtoFile; SL
       end;
     SL.Add('  if Result then');
     SL.Add('    exit;');
-    SL.Add('  case FieldNumber of');
+    SL.Add('  case fieldNumber of');
     for i := 0 to ProtoMsg.Count - 1 do
       begin
         Prop := ProtoMsg[i];
@@ -412,7 +412,7 @@ procedure TProtoBufGenerator.GenerateImplementationSection(Proto: TProtoFile; SL
                     SL.Add(Format('        F%s.Add(T%s(ProtoBuf.readEnum));', [DelphiProp.PropertyName, Prop.PropType]));
                 end
               else
-                SL.Add(Format('        F%s.AddFromBuf(ProtoBuf, FieldNumber);', [DelphiProp.PropertyName]));
+                SL.Add(Format('        F%s.AddFromBuf(ProtoBuf, fieldNumber);', [DelphiProp.PropertyName]));
           end;
         SL.Add('        Result := True;');
         SL.Add('      end;');
@@ -594,7 +594,7 @@ procedure TProtoBufGenerator.GenerateInterfaceSection(Proto: TProtoFile; SL: TSt
         SL.Add('    destructor Destroy; override;');
         SL.Add('');
       end;
-
+    SL.Add('');
     for i := 0 to ProtoMsg.Count - 1 do
       begin
         Prop := ProtoMsg[i];
@@ -630,9 +630,9 @@ begin
   SL.Add('//        kami-soft 2016-2017');
   SL.Add('// ***********************************');
   SL.Add('uses');
-  SL.Add('  System.SysUtils,');
-  SL.Add('  System.Classes,');
-  SL.Add('  System.Generics.Collections,');
+  SL.Add('  SysUtils,');
+  SL.Add('  Classes,');
+  SL.Add('  Generics.Collections,');
   SL.Add('  pbInput,');
   SL.Add('  pbOutput,');
   SL.Add('  pbPublic,');

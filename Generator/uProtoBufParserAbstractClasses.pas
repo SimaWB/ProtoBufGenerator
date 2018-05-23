@@ -3,8 +3,8 @@ unit uProtoBufParserAbstractClasses;
 interface
 
 uses
-  System.Classes,
-  System.Generics.Collections;
+  Classes,
+  Generics.Collections;
 
 type
   TAbstractProtoBufParserItem = class(TObject)

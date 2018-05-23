@@ -3,9 +3,9 @@ unit uProtoBufParserClasses;
 interface
 
 uses
-  System.Classes,
-  System.Generics.Defaults,
-  System.Generics.Collections,
+  Classes,
+  Generics.Defaults,
+  Generics.Collections,
   uProtoBufParserAbstractClasses;
 
 type
@@ -140,11 +140,24 @@ function StrToPropertyType(const AStr: string): TScalarPropertyType;
 implementation
 
 uses
-  System.SysUtils,
-  System.StrUtils,
-  System.IOUtils,
-  Winapi.Windows,
-  System.Character;
+  SysUtils,
+  StrUtils,
+  IOUtils,
+  Windows,
+  Character;
+
+function IsCharInArray(C: Char; const CharArray: array of Char): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+  for I := Low(CharArray) to High(CharArray) do begin
+    if CharArray[I] = C then begin
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
 
 function PropKindToStr(APropKind: TPropKind): string;
 begin
@@ -243,14 +256,14 @@ end;
 
 procedure SkipWhitespaces(const Proto: string; var iPos: integer);
 begin
-  while Proto[iPos].IsWhiteSpace and (iPos <= Length(Proto)) do
+  while TCharacter.IsWhiteSpace(Proto[iPos]) and (iPos <= Length(Proto)) do
     Inc(iPos);
 end;
 
 function ReadAllTillChar(const Proto: string; var iPos: integer; BreakSymbol: array of Char): string;
 begin
   Result := '';
-  while not Proto[iPos].IsInArray(BreakSymbol) and (iPos <= Length(Proto)) do
+  while not IsCharInArray(Proto[iPos], BreakSymbol) and (iPos <= Length(Proto)) do
     begin
       Result := Result + Proto[iPos];
       Inc(iPos);
@@ -293,7 +306,7 @@ begin
   SkipWhitespaces(Proto, iPos);
 
   Result := '';
-  while not Proto[iPos].IsWhiteSpace and not Proto[iPos].IsInArray(BreakSymbols) and (iPos <= Length(Proto)) do
+  while not TCharacter.IsWhiteSpace(Proto[iPos]) and not IsCharInArray(Proto[iPos], BreakSymbols) and (iPos <= Length(Proto)) do
     begin
       Result := Result + Proto[iPos];
       Inc(iPos);
@@ -561,7 +574,9 @@ begin
   inherited;
   FImports := TStringList.Create;
   FProtoBufMessages := TProtoBufMessageList.Create;
+  FProtoBufMessages.OwnsObjects := True;
   FProtoBufEnums := TProtoBufEnumList.Create;
+  FProtoBufEnums.OwnsObjects := True;
 end;
 
 destructor TProtoFile.Destroy;
